@@ -44,6 +44,10 @@ private:
 
     void scalingRow(int const row, int const factor);
 
+    void addRow(int const row1, int const row2);
+
+    void gaussianElimination(int const row1, int const row2, T scale);
+
     template <Numeric U>
     friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& matrix);
 };

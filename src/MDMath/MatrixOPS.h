@@ -10,7 +10,7 @@ namespace MatrixOPS {
 
 
     template  <Numeric T>
-    Matrix<T> static rref(Matrix<T> &m);
+    void static rref(Matrix<T> &m);
 }
 
 

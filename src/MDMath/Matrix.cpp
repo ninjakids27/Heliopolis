@@ -4,7 +4,13 @@
 
 #include "Matrix.h"
 #include "../ANSI_COLORS.h"
+#include <cmath>
+double epsilon = 1e-14; // tolerance metric change if issues arise
 
+template <Numeric T>
+void tolerance(T& input) {
+    input = (std::abs(input - std::round(input))) < epsilon ? std::round(input) : input;
+}
 
 template <Numeric T>
 Matrix<T>::Matrix(const std::vector<T>& data, int rows, int cols) : data(data), rows(rows), cols(cols) {
@@ -84,4 +90,32 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
         os << "\n";
     }
     return os;
+}
+
+/**
+ * row1 := row1+row2
+ * @param row1
+ * @param row2
+ */
+template <Numeric T>
+void Matrix<T>::addRow(int const row1, int const row2) {
+    for (int i = 0; i < this->cols; i++) {
+        set(this->get(row1, i) + this->get(row2, i),row1, i);
+    }
+}
+
+/**
+ * row1 := row1 + c*row2
+ * @param row1 position of the first row
+ * @param row2 position of the second row
+ * @param scale just a number bro
+ */
+template <Numeric T>
+void Matrix<T>::gaussianElimination(int const row1, int const row2, T scale) {
+    T value;
+    for (int i = 0; i < this->cols; i++) {
+        value = this->get(row1, i) + scale*this->get(row2, i);
+        tolerance(value);
+        set(value,row1, i);
+    }
 }

@@ -8,7 +8,7 @@
 #include <random>
 namespace MatrixOPS {
     template <Numeric T>
-    Matrix<T> identityMatrix(const int n) {
+    Matrix<T> static identityMatrix(const int n) {
         std::vector<T> data;
         data.reserve(n * n);
         for (int i = 0; i < n; ++i) {
@@ -19,12 +19,7 @@ namespace MatrixOPS {
         return Matrix<T>(data, n, n);
     }
 
-    // template <Numeric T>
-    // Matrix<T> static rref(Matrix<T> &m) {
-    //     for (int row = 0; row < m.rows; row++) {
-    //
-    //     }
-    // }
+
     /**
      *
      * @tparam T T is a generic Numeric Type meaning T has to support +,-,*,/ and be able to be passed through elementary functions
@@ -70,10 +65,21 @@ namespace MatrixOPS {
         }
     }
 
-
-
+    // TODO: Ints do not work for this
+    /**
+     * reduced row echelon form
+     * @tparam T Type of numeric
+     * @param m Matrix
+     */
     template <Numeric T>
-    Matrix<T> static rref(Matrix<T> &m) {
-        
+        void static rref(Matrix<T> &m) {
+
+        for (int i = 0; i < m.cols; i++) {
+            pivotizeMatrix(m);
+            for (int j = i+1 ; j < m.rows; j++) {
+                // gets it's pivot and eliminates it to get zero prob should check for zeros :/
+                m.gaussianElimination(j,i,-1*m.get(j,i)/m.get(i,i));
+            }
+        }
     }
 }
